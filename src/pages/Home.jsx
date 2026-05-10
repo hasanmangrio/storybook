@@ -70,6 +70,9 @@ function CoverCard({ entry, offset, onClick }) {
       tabIndex={isActive ? 0 : -1}
       aria-label={entry.title}
     >
+      {/* Colored glow behind the card */}
+      <div className={styles.cardGlow} style={{ background: gradient }} />
+
       {/* Main face */}
       <div className={styles.card} style={{ background: gradient }}>
         <div className={styles.cardShimmer} style={{ background: shimmer }} />
@@ -108,16 +111,24 @@ export default function Home({ journal }) {
     })
   }, [entries.length])
 
+  const openEntry = useCallback((id) => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => navigate(`/entry/${id}`))
+    } else {
+      navigate(`/entry/${id}`)
+    }
+  }, [navigate])
+
   // Keyboard navigation
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'ArrowRight') go(1)
       if (e.key === 'ArrowLeft')  go(-1)
-      if (e.key === 'Enter' && entries[activeIndex]) navigate(`/entry/${entries[activeIndex].id}`)
+      if (e.key === 'Enter' && entries[activeIndex]) openEntry(entries[activeIndex].id)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [go, activeIndex, entries, navigate])
+  }, [go, activeIndex, entries, openEntry])
 
   // Mouse wheel navigation (debounced)
   useEffect(() => {
@@ -183,7 +194,7 @@ export default function Home({ journal }) {
                 key={entry.id}
                 entry={entry}
                 offset={offset}
-                onClick={() => offset === 0 ? navigate(`/entry/${entry.id}`) : go(offset)}
+                onClick={() => offset === 0 ? openEntry(entry.id) : go(offset)}
               />
             )
           })}
@@ -212,28 +223,6 @@ export default function Home({ journal }) {
         </button>
       </section>
 
-      {/* Active entry info */}
-      {active && (
-        <div className={styles.info} key={active.id}>
-          <p className={styles.infoDate}>{formatDate(active.date)}</p>
-          <h1 className={styles.infoTitle}>{active.title}</h1>
-          <p className={styles.infoMeta}>{active.wordCount} words · {Math.ceil(active.wordCount / 200)} min read</p>
-          <button className={styles.openBtn} onClick={() => navigate(`/entry/${active.id}`)}>
-            Read entry
-          </button>
-        </div>
-      )}
-
-      {/* Dots */}
-      <div className={styles.dots} aria-hidden="true">
-        {entries.map((_, i) => (
-          <button
-            key={i}
-            className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ''}`}
-            onClick={() => setActiveIndex(i)}
-          />
-        ))}
-      </div>
     </div>
   )
 }
