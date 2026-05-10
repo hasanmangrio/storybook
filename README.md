@@ -1,16 +1,26 @@
-# React + Vite
+# Storybook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A beautiful, modern journal application. Write daily entries in a distraction-free editor, then revisit them through an elegant reading experience.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Home** — frosted-glass nav, animated card grid with mood-tinted backgrounds, live search
+- **Editor** — full-screen serif writing surface, auto-save, mood picker, word count, ⌘↵ shortcut
+- **Entry view** — quiet reading layout with Lora typography and two-tap delete confirm
+- **Persistence** — all entries saved to `localStorage`; five curated sample entries on first load
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19 + Vite 8
+- React Router v7
+- CSS Modules — no runtime CSS-in-JS
+- Google Fonts: Inter (UI) + Lora (content)
 
-## Expanding the ESLint configuration
+## Getting started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173).
